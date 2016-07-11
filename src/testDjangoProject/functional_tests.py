@@ -7,6 +7,8 @@ import unittest
 class NewVistorTest(unittest.TestCase):
     def setUp(self):
         self.browser=webdriver.Firefox()
+        #添加隐式等待
+        self.browser.implicitly_wait(3)
     
     def tearDown(self):
         self.browser.quit()
@@ -20,4 +22,4 @@ class NewVistorTest(unittest.TestCase):
         self.fail('finished the test!')
     
 if __name__ == '__main__':
-    unittest.main(warnings='ignore')
+    unittest.main()
