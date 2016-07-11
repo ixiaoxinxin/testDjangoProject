@@ -1,8 +1,12 @@
-'''
-Created on 2016年7月3日
+# -*- coding: utf-8 -*-
+from selenium import webdriver
+#引用标准的 unittest 模块
 
-@author: anniezhang
-'''
 
-if __name__ == '__main__':
-    pass
+
+browser = webdriver.Firefox()
+browser.get('http://localhost:8080')
+
+assert 'To-do' in browser.title()
+
+browser.quit()
