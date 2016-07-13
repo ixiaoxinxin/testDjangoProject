@@ -1,3 +1,5 @@
 eclipse.preferences.version=1
 encoding//src/lists/tests.py=utf-8
+encoding//src/lists/views.py=utf-8
 encoding//src/testDjangoProject/functional_tests.py=utf-8
+encoding//src/testDjangoProject/urls.py=utf-8

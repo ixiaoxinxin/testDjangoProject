@@ -17,6 +17,7 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         requset = HttpRequest()#用于存储用户在浏览网页的时候请求的对象
         response = home_page(requset)# 将用户浏览网页时的内容传给视图,通过视图得到相应
+        #--------------------以下是测试 request的返回值(功能测试)------------------------------#
         self.assertTrue(response.content.startswith(b'<html>'))#使用 content.startswith()是原始字节,对比的时候要用 b''
         self.assertIn(b'<title>To-Do list</title>', response.content)
         self.assertTrue(response.content.endwith(b'</html>'))
