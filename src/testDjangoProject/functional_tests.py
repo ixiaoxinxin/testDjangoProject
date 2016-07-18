@@ -18,9 +18,9 @@ class NewVistorTest(unittest.TestCase):
         
         self.browser.get('http://127.0.0.1:8000/')
         #网页的标题和头部都包含 todo
-        self.assertIn('to-do', self.browser.title())
+        self.assertIn('To-Do', self.browser.title)
         header_text=self.browser.find_element_by_tag_name('h1').text()#网页的头部包含to-do,这句话是说明如何找头部的信息
-        self.assertIn('to-do', header_text)
+        self.assertIn('To-Do', header_text)
         
         inputbox=self.browser.find_element_by_id('id_new_item')
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to do item')
@@ -31,7 +31,8 @@ class NewVistorTest(unittest.TestCase):
         
         table=self.browser.find_element_by_id('id_list_table')
         rows=table.find_element_by_tag_name('tr')
-        self.assertTrue(any(row.text =='1:buy peapock feathers' for row in rows))
+        #待办事项表格中显示'1:buy peapock feathers' 
+        self.assertTrue(any(row.text =='1:buy peapock feathers' for row in rows),"New to-do item did not appear in table")
         # 生成制定的错误消息提醒测试结束
         self.fail('finished the test!')
     

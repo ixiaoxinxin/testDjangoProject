@@ -5,4 +5,5 @@ from django.http.response import HttpResponse
 # Create your views here.
 
 def home_page(request):
-    return HttpResponse('<html><title>To-Do lists</title></html>')
+    #request是请求的对象(就是用户的输入值),home.html 是渲染的模板名称, Django会根据模板的内容构建一个 HttpResponse 对象
+    return render(request,'home.html')
