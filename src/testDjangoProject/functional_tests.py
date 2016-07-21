@@ -39,7 +39,7 @@ class NewVistorTest(unittest.TestCase):
         rows=table.find_element_by_tag_name('tr')
         #待办事项表格中显示'1:buy peapock feathers' 
         self.assertTrue(any(row.text =='1:buy peapock feathers' for row in rows),"New to-do item did not appear in table")
-
+        #-------------------------------------------------------------------------------
         #页面还有一个输入框
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use tpeacock feathers to make a  fly')
