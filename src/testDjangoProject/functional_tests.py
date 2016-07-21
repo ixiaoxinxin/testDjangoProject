@@ -13,6 +13,12 @@ class NewVistorTest(unittest.TestCase):
     
     def tearDown(self):
         self.browser.quit()
+
+    #辅助方法类
+    def check_for_row_in_list_table(self,row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_element_by_tag_name('tr')
+        self.assertIn(row_text,[row.text for row in rows])
         
     def test_can_start_a_list_and_retrieve_it_later(self):
         
@@ -33,8 +39,21 @@ class NewVistorTest(unittest.TestCase):
         rows=table.find_element_by_tag_name('tr')
         #待办事项表格中显示'1:buy peapock feathers' 
         self.assertTrue(any(row.text =='1:buy peapock feathers' for row in rows),"New to-do item did not appear in table")
+
+        #页面还有一个输入框
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Use tpeacock feathers to make a  fly')
+        # 页面显示输入的内容,只是缓存
+        inputbox.send_keys(Keys.ENTER)
+        #table = self.browser.find_element_by_id('id_list_table')
+
+        self.check_for_row_in_list_table('1:buy peapock feathers' )
+        self.check_for_row_in_list_table('2:Use tpeacock feathers to make a  fly')
+
         # 生成制定的错误消息提醒测试结束
         self.fail('finished the test!')
+
+
     
 if __name__ == '__main__':
     unittest.main()

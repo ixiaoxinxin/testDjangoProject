@@ -7,6 +7,9 @@
    		<input name="item_text" id='id_new_item' placeholder="Enter a to-do item"/>
    		{%csrf_token%}
 	</from>
+		<!--把 python 变量传入模板中渲染-->
+        <table id="id_list_table"></table>
+        <tr><td>{{new_item_text}}</td></tr>
 
    	</body>
    
