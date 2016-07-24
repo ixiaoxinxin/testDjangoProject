@@ -5,8 +5,7 @@ from django.template.loader import render_to_string
 from django.test import TestCase
 from models import Item
 from views import home_page
-import os
-os.environ.setdefault("DEFAULT_INDEX_TABLESPACE", "testDjangoProject.settings")
+
 
 class HomePageTest(TestCase):
     def test_root_url_resolve_to_home_page_view(self):
@@ -28,7 +27,17 @@ class HomePageTest(TestCase):
         request.POST['item_text']='A new list item'
 
         resopnse=home_page(request)#没有调用response的包
-        self.assertIn('A new list item', resopnse.content.decode())
+
+        self.assertEqual(Item.objects.count(),1)
+        new_item=Item.objects.first()#初始化一个数组
+        self.assertEqual(new_item.text, 'A new list item')#查看文本是否正确
+
+
+        self.assertEqual(resopnse.status_code,302)#其中3XX的代码都用来重定向,302的意思是服务器从不同位置的网页相应请求
+        self.assertEqual(resopnse['location'],'/')
+
+
+        #self.assertIn('A new list item', resopnse.content.decode())
         #这个方法是处理 post 请求;请求的名称是'item_text',给"请求"赋值一个名称,并查看该请求的返回值
         #用render_to_string函数渲染模板,然后用这个渲染模板的返回值与试图函数 view.py的html做比较
         expected_html = render_to_string(
@@ -38,6 +47,13 @@ class HomePageTest(TestCase):
         #第二个参数是变量名到值的映射,向模板中传入一个名为new_item_text的对象, A....的值是 post 发送的待办事项文本
         self.assertEqual(resopnse.content.decode(), expected_html)
         #运行时候的效果:把 python 变量传入模板中将<table id="id_list_table"></table>这里的值渲染成'A new list item'
+
+
+    def test_home_page_only_saves_items_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(),0)#检验返回值是否是数据库中存的第一个值
+
 
 class ItemModelTest(TestCase):
 
