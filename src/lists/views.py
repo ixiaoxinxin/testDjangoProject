@@ -16,5 +16,5 @@ def home_page(request):
 
 
     items = Item.objects.all()#将用户输入的待办事项传入模板
-    return render(request,'home.html',{'items':items})
+    return render(request,'home.html',{'items':items})#来源,去向(渲染的模板),和传入的内容
 
