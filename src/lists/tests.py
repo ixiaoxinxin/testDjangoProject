@@ -6,7 +6,7 @@ from django.test import TestCase
 from models import Item
 from views import home_page
 
-
+#每个测试用例中的所有方法
 class HomePageTest(TestCase):
     def test_root_url_resolve_to_home_page_view(self):
         #resolve是解析主页的域名
@@ -23,7 +23,7 @@ class HomePageTest(TestCase):
         self.assertIn(b'<title>To-Do lists</title>', response.content)
         self.assertTrue(response.content.endwith(b'</html>'))
 
-    def test_home_page_can_save_a_POST_request(self):
+    def test_home_page_can_save_a_POST_request(self):#将post 请求的结果,即生成的提交数据库存储到数据库中
         request=HttpRequest()
         request.method='POST'
         request.POST['item_text']='A new list item'#
