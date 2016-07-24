@@ -3,9 +3,10 @@ from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.test import TestCase
-
 from models import Item
 from views import home_page
+import os
+os.environ.setdefault("DEFAULT_INDEX_TABLESPACE", "testDjangoProject.settings")
 
 class HomePageTest(TestCase):
     def test_root_url_resolve_to_home_page_view(self):
