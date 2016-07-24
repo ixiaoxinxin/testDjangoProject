@@ -33,19 +33,19 @@ class HomePageTest(TestCase):
         self.assertEqual(new_item.text, 'A new list item')#查看文本是否正确
 
 
-        self.assertEqual(resopnse.status_code,302)#其中3XX的代码都用来重定向,302的意思是服务器从不同位置的网页相应请求
-        self.assertEqual(resopnse['location'],'/')
+        #self.assertEqual(resopnse.status_code,302)#其中3XX的代码都用来重定向,302的意思是服务器从不同位置的网页相应请求
+        #self.assertEqual(resopnse['location'],'/')
 
 
         #self.assertIn('A new list item', resopnse.content.decode())
         #这个方法是处理 post 请求;请求的名称是'item_text',给"请求"赋值一个名称,并查看该请求的返回值
         #用render_to_string函数渲染模板,然后用这个渲染模板的返回值与试图函数 view.py的html做比较
-        expected_html = render_to_string(
-            'home.html',
-            {'new_item_text':'A new list item'}
-        )
+        #expected_html = render_to_string(
+            #'home.html',
+           # {'new_item_text':'A new list item'}
+        #)
         #第二个参数是变量名到值的映射,向模板中传入一个名为new_item_text的对象, A....的值是 post 发送的待办事项文本
-        self.assertEqual(resopnse.content.decode(), expected_html)
+        #self.assertEqual(resopnse.content.decode(), expected_html)
         #运行时候的效果:把 python 变量传入模板中将<table id="id_list_table"></table>这里的值渲染成'A new list item'
 
 
@@ -53,6 +53,23 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         home_page(request)
         self.assertEqual(Item.objects.count(),0)#检验返回值是否是数据库中存的第一个值
+
+
+    def test_home_page_redirects_after_POST(self):
+        request=HttpRequest()
+        request.method='POST'
+        request.POST['item_text']='A new list item' #模板中 input的 name
+
+
+    def test_home_page_display_all_list_items(self):
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        request=HttpRequest()
+        resopnse=home_page(request)
+
+        self.assertIn('itemey 1',resopnse.content.decode())
+        self.assertIn('itemey 2', resopnse.content.decode())
 
 
 class ItemModelTest(TestCase):

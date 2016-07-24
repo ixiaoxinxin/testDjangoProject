@@ -13,5 +13,8 @@ def home_page(request):
         #return render(request, 'home.html', {'new_item_text': new_item_text})#
         Item.objects.create(text=request.POST['item_text'])
         return redirect('/')
-    return render(request,'home.html')
+
+
+    items = Item.objects.all()#将用户输入的待办事项传入模板
+    return render(request,'home.html',{'items':items})
 
