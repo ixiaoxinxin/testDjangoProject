@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 #引用标准的 unittest 模块
 import unittest
 
 
-class NewVistorTest(unittest.TestCase):
+class NewVistorTest(LiveServerTestCase):
     def setUp(self):
         self.browser=webdriver.Firefox()
         #添加隐式等待
@@ -23,7 +24,7 @@ class NewVistorTest(unittest.TestCase):
     #单元测试要做的操作
     def test_can_start_a_list_and_retrieve_it_later(self):
         
-        self.browser.get('http://127.0.0.1:8000')
+        self.browser.get(self.live_server_url)
         #网页的标题和头部都包含 todo
         self.assertIn('To-Do', self.browser.title)
         header_text=self.browser.find_element_by_tag_name('h1').text()#网页的头部包含to-do,这句话是说明如何找头部的信息
@@ -57,6 +58,6 @@ class NewVistorTest(unittest.TestCase):
         self.fail('finished the test!')
 
 
-    
-if __name__ == '__main__':
-    unittest.main()
+#不需要main 方法来运行测试了,只用 Django的manage.py 运行
+#if __name__ == '__main__':
+    #unittest.main()
