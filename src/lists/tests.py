@@ -63,16 +63,6 @@ class HomePageTest(TestCase):
         request.POST['item_text']='A new list item' #模板中 input的 name
 
 
-    def test_home_page_display_all_list_items(self):
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
-
-        request=HttpRequest()
-        resopnse=home_page(request)
-
-        self.assertIn('itemey 1',resopnse.content.decode())
-        self.assertIn('itemey 2', resopnse.content.decode())
-
 
 class ItemModelTest(TestCase):
 
@@ -93,5 +83,24 @@ class ItemModelTest(TestCase):
         second_saved_item = saved_items[1]
         self.assertEqual(first_saved_item.text, 'The first (ever) list item')
         self.assertEqual(second_saved_item.text, 'Item the second')
+
+
+class ListViewTest(TestCase):
+    def test_uses_list_template(self):
+        response = self.client.get('/list/the-only-list-in-the-world/')
+        #将指定用户输入值作为 request, 提交后渲染home.html,
+        # 输入的内容最终显示到 list.html
+        self.assertTemplateUsed(response,'list.html')
+
+    def test_display_all_items(self):
+        Item.objects.create(text='itemy 1')
+        Item.objects.create(text='itemy 2')
+
+        response = self.client.get('/list/the-only-list-in-the-world/')
+
+        self.assertContains(response,'itemy 1')
+        self.assertContains(response, 'itemy 2')#assertContains知道如何处理响应和响应中的字节
+
+
 
 

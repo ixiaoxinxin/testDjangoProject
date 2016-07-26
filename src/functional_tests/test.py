@@ -70,6 +70,8 @@ class NewVistorTest(LiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
         self.browser.get(self.live_server_url)
+
+        #检验用户B的输入项
         page_text=self.browser.find_element_by_tag_name('body').text#获取tage_name是body对应的值
         self.assertNotIn('buy peapock feathers',page_text)
         self.assertNotIn('make a fly',page_text)
