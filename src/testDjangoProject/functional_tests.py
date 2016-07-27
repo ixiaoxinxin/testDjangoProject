@@ -44,8 +44,9 @@ class NewVistorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use tpeacock feathers to make a  fly')
         # 页面显示输入的内容,只是缓存
+        # table = self.browser.find_element_by_id('id_list_table')
         inputbox.send_keys(Keys.ENTER)
-        #table = self.browser.find_element_by_id('id_list_table')
+
 
         self.check_for_row_in_list_table('1:buy peapock feathers' )
         self.check_for_row_in_list_table('2:Use tpeacock feathers to make a  fly')
