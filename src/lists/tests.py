@@ -23,16 +23,8 @@ class HomePageTest(TestCase):
         self.assertIn(b'<title>To-Do lists</title>', response.content)
         self.assertTrue(response.content.endwith(b'</html>'))
 
-    def test_home_page_can_save_a_POST_request(self):#将post 请求的结果,即生成的提交数据库存储到数据库中
-        request=HttpRequest()
-        request.method='POST'
-        request.POST['item_text']='A new list item'#
+    #def test_home_page_can_save_a_POST_request(self):#将post 请求的结果,即生成的提交数据库存储到数据库中
 
-        resopnse=home_page(request)#没有调用response的包
-
-        self.assertEqual(Item.objects.count(),1)
-        new_item=Item.objects.first()#初始化一个数组
-        self.assertEqual(new_item.text, 'A new list item')#查看文本是否正确
 
 
         #self.assertEqual(resopnse.status_code,302)#其中3XX的代码都用来重定向,302的意思是服务器从不同位置的网页相应请求
@@ -51,16 +43,14 @@ class HomePageTest(TestCase):
         #运行时候的效果:把 python 变量传入模板中将<table id="id_list_table"></table>这里的值渲染成'A new list item'
 
 
-    def test_home_page_only_saves_items_when_necessary(self):
-        request = HttpRequest()
-        home_page(request)
-        self.assertEqual(Item.objects.count(),0)#检验返回值是否是数据库中存的第一个值
+    #def test_home_page_only_saves_items_when_necessary(self):
+        #request = HttpRequest()
+        #home_page(request)
+        #self.assertEqual(Item.objects.count(),0)#检验返回值是否是数据库中存的第一个值
 
 
-    def test_home_page_redirects_after_POST(self):
-        request=HttpRequest()
-        request.method='POST'
-        request.POST['item_text']='A new list item' #模板中 input的 name
+    #def test_home_page_redirects_after_POST(self):
+
 
 
 
@@ -101,6 +91,39 @@ class ListViewTest(TestCase):
         self.assertContains(response,'itemy 1')
         self.assertContains(response, 'itemy 2')#assertContains知道如何处理响应和响应中的字节
 
+
+class NewListTest(TestCase):
+    def test_saving_a_POST_request(self):
+        #request = HttpRequest()
+        #request.method = 'POST'
+        #request.POST['item_text'] = 'A new list item'  #
+
+        #resopnse = home_page(request)  # 没有调用response的包
+
+        #self.assertEqual(Item.objects.count(), 1)
+        #new_item = Item.objects.first()  # 初始化一个数组
+        #self.assertEqual(new_item.text, 'A new list item')  # 查看文本是否正确
+
+
+        #用Django 客户端重写这个方法:
+        self.client.post(
+            'list/new',#需要加入到 url 的映射中
+            data={'item_text': 'A new list item'}
+        )
+        self.assertEqual(Item.objects.count,1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 1)
+
+    def test_redirects_adter_POST(self):
+        #request = HttpRequest()
+        #request.method = 'POST'
+        #request.POST['item_text'] = 'A new list item'  # 模板中 input的 name
+        respone = self.client.post(
+            'lists/new',
+            data={'item_text': 'A new list item'}
+        )
+        #self.assertEqual(respone.status_code, 302)这个重定向的检查会给 url 加上域名,所以去掉,下面的 response  location 去掉
+        self.assertEqual(respone, '/lists/the-only-list-in-theworld/')
 
 
 
