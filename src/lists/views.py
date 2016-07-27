@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,redirect
-from models import Item
+from models import Item,List
 
 
 def home_page(request):
@@ -24,6 +24,7 @@ def view_list(request):
     items = Item.objects.all()  # 将用户输入的待办事项传入模板
     return render(request, 'list.html', {'items': items})  # 来源,去向(渲染的模板),和传入的内容
 
-def new_lists(request):
-    Item.objects.create(text=request.POST['item_text'])
+def new_lists(request):#创建待办事项
+    list_ = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'],list=list_)
     return redirect('/lists/the-only-list-in-theworld/')#重定向到另外一个 url
