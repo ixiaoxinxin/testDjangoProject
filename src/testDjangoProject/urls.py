@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
 
+
 urlpatterns = patterns['',
     #url(r'^admin/', include(admin.site.urls)),
     #url(r'^$', 'lists.views.home_page', name='home')
     url(r'^$','lists.views.home_page',name='home'),
-    url(r'^lists/the-only-list-in-the-world/$','lists.views.viewlists',name='viewlists'),
+    url(r'^lists/the-only-list-in-the-world/$','lists.views.viewlists',name='viewlists'),#这种写法只支持1.1版本，1.9版本不支持
+    #url(r'^s', view),
     #添加 url 映射用于重定向
     url(r'^lists/new$','lists.views.new_lists',name='new_lists'),
 
