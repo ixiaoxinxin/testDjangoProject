@@ -21,4 +21,7 @@ urlpatterns = patterns['',
     #url(r'^$', 'lists.views.home_page', name='home')
     url(r'^$','lists.views.home_page',name='home'),
     url(r'^lists/the-only-list-in-the-world/$','lists.views.viewlists',name='viewlists'),
+    #添加 url 映射用于重定向
+    url(r'^lists/new$','lists.views.new_lists',name='new_lists'),
+
 ]
