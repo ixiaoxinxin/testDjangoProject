@@ -20,11 +20,16 @@ def home_page(request):
     return render(request, 'home.html')
 
 
-def view_list(request):
-    items = Item.objects.all()  # 将用户输入的待办事项传入模板
-    return render(request, 'list.html', {'items': items})  # 来源,去向(渲染的模板),和传入的内容
+def view_list(request,list_id):
+    list_ = List.objects.create(id=list_id)
+    return render(request,'list.html',{'list':list_})
 
-def new_lists(request):#创建待办事项
+def new_list(request):#创建待办事项
     list_ = List.objects.create()
     Item.objects.create(text=request.POST['item_text'],list=list_)
-    return redirect('/lists/the-only-list-in-theworld/')#重定向到另外一个 url
+    return redirect('/lists/%d/'%(new_list.id,))#重定向到另外一个 url
+
+def add_item(request,list_id):
+    list_ = List.objects.create()
+    Item.objects.create(text=request.POST['item_text'], list=list_)#让视图保存新的待办事项
+    return redirect('/lists/%d/' % (list_id.id,))

@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'superlists.settings'
 
+class NewVisitorTest(LiveServerTestCase):
 
-#引用标准的 unittest 模块
-import unittest
-
-
-class NewVistorTest(LiveServerTestCase):
     def setUp(self):
         self.browser=webdriver.Firefox()
-        #添加隐式等待
         self.browser.implicitly_wait(3)
-    
+
     def tearDown(self):
         self.browser.quit()
-
     #辅助方法类,设计具体要做什么事情
+
     def check_for_row_in_list_table(self,row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_element_by_tag_name('tr')

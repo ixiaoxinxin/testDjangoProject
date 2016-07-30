@@ -11,15 +11,14 @@ Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
 Including another URLconf
-    1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+    1. Add a URL to urlpatterns:  url(r'^bl og/', include('blog.urls'))
 """
 from django.conf.urls import include,url, patterns
 
 
 urlpatterns = patterns['',
-
-    url(r'^$','lists.views.home_page',name='home'),
-    url(r'^lists/', include('lists.urls')),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^(\d+)$','lists.views.viewlist', name='viewlist'),
+    url(r'^(\d+)/add_item$','lists.views.add_item', name='add_item'),
+    url(r'^new$','lists.views.new_list',name='new_list'),
 
 ]
