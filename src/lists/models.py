@@ -12,6 +12,6 @@ class List(models.Model):
 class Item(models.Model):
     #text=models.TextField(default='')#给列的值添加默认值
     text = models.TextField(default='')
-    list = models.TextField(List, default=None)#添加list和item的关系:应该是包含关系
+    list = models.ForeignKey(List, default=None)#添加list和item的关系:应该是包含关系
 
 
