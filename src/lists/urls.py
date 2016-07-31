@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import include,url, patterns
+from django.conf.urls import include, url
+import views as list_views
+import urls as list_urls
 
-
-urlpatterns = patterns['',
-    url(r'^(\d+)$','lists.views.viewlist', name='viewlist'),
-    url(r'^(\d+)/add_item$','lists.views.add_item', name='add_item'),
-    url(r'^new$','lists.views.new_list',name='new_list'),
-
+urlpatterns = [
+    url(r'^$', list_views.home_page, name='home'),
+    url(r'^lists/', include(list_urls)),
+    url(r'^admin/', include('django.contrib.admin')),
 ]
+
